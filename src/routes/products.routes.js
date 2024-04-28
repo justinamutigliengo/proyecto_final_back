@@ -1,8 +1,10 @@
 import { Router } from "express";
-
 const router = Router();
 
-router.get("/products", async (req, res) => {
+import ProductManager from "../managers/ProductManager.js";
+const manager = new ProductManager("../../src/mocks/products.json");
+
+router.get("/", async (req, res) => {
   try {
     const limit = +req.query.limit || 0;
     const products = await manager.getProducts(limit);
@@ -14,7 +16,7 @@ router.get("/products", async (req, res) => {
   }
 });
 
-router.get("/products/:pid", async (req, res) => {
+router.get("/:pid", async (req, res) => {
   try {
     const product = await manager.getProductById(req.params.pid);
 
@@ -26,6 +28,33 @@ router.get("/products/:pid", async (req, res) => {
   } catch (error) {
     console.error("Error al obtener producto por ID:", error);
     res.status(500).send({ error: "Error interno del servidor" });
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const newProduct = await manageraddProduct(req.body);
+    res.status(200).send({ payload: newProduct });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
+  }
+});
+
+router.put("/:pid", async (req, res) => {
+  try {
+    const updatedProduct = await manager.updateProduct(req.params, req.body);
+    res.status(200).send({ payload: updatedProduct });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
+  }
+});
+
+router.delete("/:pid", async (req, res) => {
+  try {
+    const deleteProduct = await manager.deleteProduct(req.params);
+    res.status(200).send({ payload: deleteProduct });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
   }
 });
 

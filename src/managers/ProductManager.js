@@ -1,14 +1,34 @@
 import fs from "fs";
 
 class ProductManager {
-  constructor() {
-    this.path = "./productos.txt";
+  constructor(path) {
+    this.path = path;
     this.products = [];
   }
 
   static id = 0;
 
-  addProduct = async (title, description, price, thumbnail, code, stock) => {
+  addProduct = async ({
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+  }) => {
+    if (!title || !description || !price || !thumbnail || !code || !stock) {
+      console.error("Todos los campos son requeridos");
+      return;
+    }
+
+    const isCodeDuplicate = this.products.some(
+      (product) => product.code === code
+    );
+    if (isCodeDuplicate) {
+      console.error(`El código ${code} está repetido`);
+      return;
+    }
+
     ProductManager.id++;
     const newProduct = {
       title,
@@ -62,8 +82,6 @@ class ProductManager {
 }
 
 export default ProductManager;
-
-// const productManager = new ProductManager();
 
 // productManager.addProduct(
 //   "Producto 1",
