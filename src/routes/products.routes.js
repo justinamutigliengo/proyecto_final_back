@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 
 import ProductManager from "../managers/ProductManager.js";
-const manager = new ProductManager("../../src/mocks/products.json");
+const manager = new ProductManager("../src/mocks/products.json");
 
 router.get("/", async (req, res) => {
   try {
@@ -33,8 +33,8 @@ router.get("/:pid", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const newProduct = await manageraddProduct(req.body);
-    res.status(200).send({ payload: newProduct });
+    const newProduct = await manager.addProduct(req.body);
+    res.status(200).send({ status: "success", payload: newProduct });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
   }
@@ -43,6 +43,7 @@ router.post("/", async (req, res) => {
 router.put("/:pid", async (req, res) => {
   try {
     const updatedProduct = await manager.updateProduct(req.params, req.body);
+    console.log(updatedProduct);
     res.status(200).send({ payload: updatedProduct });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });

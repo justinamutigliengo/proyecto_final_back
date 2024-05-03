@@ -3,10 +3,17 @@ import fs from "fs";
 class ProductManager {
   constructor(path) {
     this.path = path;
-    this.products = [];
+
+    this.readProducts().then((mockProducts) => {
+      this.products = mockProducts;
+
+      console.log("Los productos del mock son", mockProducts);
+    });
   }
 
-  static id = 0;
+  //static id = 0;
+
+  getNextId = () => this.products.length + 1;
 
   addProduct = async ({
     title,
@@ -16,7 +23,7 @@ class ProductManager {
     code,
     stock,
   }) => {
-    if (!title || !description || !price || !thumbnail || !code || !stock) {
+    if (!title || !description || !price || !code || !stock) {
       console.error("Todos los campos son requeridos");
       return;
     }
@@ -29,7 +36,8 @@ class ProductManager {
       return;
     }
 
-    ProductManager.id++;
+    //ProductManager.id++;
+
     const newProduct = {
       title,
       description,
@@ -37,7 +45,7 @@ class ProductManager {
       thumbnail,
       code,
       stock,
-      id: ProductManager.id,
+      id: this.getNextId(),
     };
 
     this.products.push(newProduct);
@@ -46,7 +54,8 @@ class ProductManager {
 
   readProducts = async () => {
     let response = await fs.promises.readFile(this.path, "utf-8");
-    return JSON.parse(response);
+
+    return response ? JSON.parse(response) : [];
   };
 
   getProducts = async (limit) => {
@@ -67,17 +76,16 @@ class ProductManager {
   };
 
   deleteProduct = async (id) => {
-    let response3 = await this.readProducts();
-    let productFilter = response3.filter((products) => products.id != id);
+    let productFilter = this.products.filter((product) => product.id != id);
     await fs.promises.writeFile(this.path, JSON.stringify(productFilter));
     console.log("Producto eliminado");
   };
 
   updateProduct = async ({ id, ...producto }) => {
     await this.deleteProduct(id);
-    let productOld = await this.readProducts();
-    let productsModif = [{ ...producto, id }, ...productOld];
+    let productsModif = [{ ...producto, id }, ...this.products];
     await fs.promises.writeFile(this.path, JSON.stringify(productsModif));
+    return { ...producto, id };
   };
 }
 

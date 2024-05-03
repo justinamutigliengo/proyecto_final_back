@@ -29,12 +29,10 @@ router.post("/:cid/product/:pid", async (req, res) => {
       .send({ message: "Producto agregado al carrito exitosamente." });
   } catch (error) {
     console.error("Error al agregar producto al carrito:", error);
-    res
-      .status(500)
-      .json({
-        status: "error",
-        message: "No se pudo agregar el producto al carrito.",
-      });
+    res.status(500).json({
+      status: "error",
+      message: "No se pudo agregar el producto al carrito.",
+    });
   }
 });
 
