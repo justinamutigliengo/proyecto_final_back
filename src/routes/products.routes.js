@@ -44,7 +44,7 @@ router.put("/:pid", async (req, res) => {
   try {
     const updatedProduct = await manager.updateProduct(req.params, req.body);
     console.log(updatedProduct);
-    res.status(200).send({ payload: updatedProduct });
+    res.status(200).send({ status: "success", payload: updatedProduct });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
   }
@@ -53,7 +53,7 @@ router.put("/:pid", async (req, res) => {
 router.delete("/:pid", async (req, res) => {
   try {
     const deleteProduct = await manager.deleteProduct(req.params);
-    res.status(200).send({ payload: deleteProduct });
+    res.status(200).send({ status: "success", payload: deleteProduct });
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
   }

@@ -1,20 +1,21 @@
 import { Router } from "express";
-import CartManager from "../managers/CartManager.js";
-
 const router = Router();
 
+import CartManager from "../managers/CartManager.js";
+const cartManager = new CartManager("../src/mocks/products.json");
+
 router.get("/", async (req, res) => {
-  const carrito = await manager.getCarts();
+  const carrito = await cartManager.getCarts();
   res.status(200).send({ payload: carrito });
 });
 
 router.get("/:cid", async (req, res) => {
-  const carritoFound = await manager.getCartbyId(req.params);
+  const carritoFound = await cartManager.getCartbyId(req.params);
   res.status(200).send({ payload: carritoFound });
 });
 
 router.post("/", async (req, res) => {
-  const newcart = await manager.addCart();
+  const newcart = await cartManager.addCart();
   res.status(200).send({ payload: newcart });
 });
 
@@ -23,7 +24,7 @@ router.post("/:cid/product/:pid", async (req, res) => {
     const cid = parseInt(req.params.cid);
     const pid = parseInt(req.params.pid);
 
-    await manager.addProductToCart(cid, pid);
+    await cartManager.addProductToCart(cid, pid);
     res
       .status(200)
       .send({ message: "Producto agregado al carrito exitosamente." });

@@ -3,15 +3,8 @@ import fs from "fs";
 class ProductManager {
   constructor(path) {
     this.path = path;
-
-    this.readProducts().then((mockProducts) => {
-      this.products = mockProducts;
-
-      console.log("Los productos del mock son", mockProducts);
-    });
+    this.products = [];
   }
-
-  //static id = 0;
 
   getNextId = () => this.products.length + 1;
 
@@ -35,8 +28,6 @@ class ProductManager {
       console.error(`El código ${code} está repetido`);
       return;
     }
-
-    //ProductManager.id++;
 
     const newProduct = {
       title,
@@ -75,17 +66,77 @@ class ProductManager {
     return product;
   };
 
-  deleteProduct = async (id) => {
-    let productFilter = this.products.filter((product) => product.id != id);
-    await fs.promises.writeFile(this.path, JSON.stringify(productFilter));
-    console.log("Producto eliminado");
+  updateProduct = async (objparams, objbody) => {
+    const { pid } = objparams;
+    const {
+      title,
+      description,
+      price,
+      category,
+      thumbnail,
+      status,
+      code,
+      stock,
+    } = objbody;
+    if (
+      title === undefined ||
+      description === undefined ||
+      price === undefined ||
+      category === undefined ||
+      status === undefined ||
+      code === undefined ||
+      stock === undefined
+    ) {
+      console.error(
+        "Ingrese todos los datos del producto para su actualización"
+      );
+      return;
+    } else {
+      const listadoProductos = await this.getProducts({});
+      const codigorepetido = listadoProductos.find((i) => i.code === code);
+      if (codigorepetido) {
+        console.error(
+          "El código del producto que desea actualizar es repetido"
+        );
+        return;
+      } else {
+        const listadoProductos = await this.getProducts({});
+        const newProductsList = listadoProductos.map((elemento) => {
+          if (elemento.id === parseInt(pid)) {
+            const updatedProduct = {
+              ...elemento,
+              title,
+              description,
+              price,
+              category,
+              status,
+              thumbnail,
+              code,
+              stock,
+            };
+            return updatedProduct;
+          } else {
+            return elemento;
+          }
+        });
+        await fs.promises.writeFile(
+          this.path,
+          JSON.stringify(newProductsList, null, 2)
+        );
+      }
+    }
   };
 
-  updateProduct = async ({ id, ...producto }) => {
-    await this.deleteProduct(id);
-    let productsModif = [{ ...producto, id }, ...this.products];
-    await fs.promises.writeFile(this.path, JSON.stringify(productsModif));
-    return { ...producto, id };
+  deleteProduct = async (objparams) => {
+    const { pid } = objparams;
+    const allproducts = await this.getProducts({});
+    const productswithoutfound = allproducts.filter(
+      (elemento) => elemento.id !== parseInt(pid)
+    );
+    await fs.promises.writeFile(
+      this.path,
+      JSON.stringify(productswithoutfound, null, 2)
+    );
   };
 }
 
