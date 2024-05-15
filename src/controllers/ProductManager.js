@@ -57,6 +57,20 @@ class ProductManager {
     return limit === 0 ? parsedProducts : parsedProducts.slice(0, limit);
   };
 
+  getProductsView = async () => {
+    try {
+      if (fs.existsSync(this.path)) {
+        const productlist = await fs.promises.readFile(this.path, "utf-8");
+        const productlistJs = JSON.parse(productlist);
+        return productlistJs;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   getProductById = async (id) => {
     const products = await fs.promises.readFile(this.path, "utf-8");
     const parsedProducts = await JSON.parse(products);

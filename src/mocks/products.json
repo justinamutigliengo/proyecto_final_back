@@ -1,1 +1,91 @@
-[{"title":"Producto 1","description":"Descripción 1","price":1000,"thumbnail":"imagen1.jpg","code":"abc123","stock":10,"id":1},{"title":"Producto 2","description":"Descripción 2","price":2000,"thumbnail":"imagen2.jpg","code":"def456","id":2},{"title":"Producto 3","description":"Descripción 3","price":3000,"thumbnail":"imagen3.jpg","code":"ghi789","stock":5,"id":3},{"title":"Producto 4","description":"Descripción 4","price":3500,"thumbnail":"imagen4.jpg","code":"jyt739","stock":12,"id":4},{"title":"Producto 5","description":"Descripción 5","price":1200,"thumbnail":"imagen5.jpg","code":"oqs749","stock":5,"id":5},{"title":"Producto 6","description":"Descripción 6","price":3050,"thumbnail":"imagen6.jpg","code":"fry729","stock":4,"id":6},{"title":"Producto 7","description":"Descripción 7","price":5200,"thumbnail":"imagen7.jpg","code":"ghi589","stock":5,"id":7},{"title":"Producto 8","description":"Descripción 8","price":3000,"thumbnail":"imagen8.jpg","code":"iut787","stock":5,"id":8},{"title":"Producto 9","description":"Descripción 9","price":3450,"thumbnail":"imagen9.jpg","code":"tui740","stock":15,"id":9},{"title":"Producto 10","description":"Descripción 10","price":2700,"thumbnail":"imagen10.jpg","code":"ghi475","stock":20,"id":10},{"id":11,"products":[]}]
+[
+  {
+    "title": "Producto 1",
+    "description": "Descripción 1",
+    "price": 1000,
+    "thumbnail": "../assets/images/top1.webp",
+    "code": "abc123",
+    "stock": 10,
+    "id": 1
+  },
+  {
+    "title": "Producto 2",
+    "description": "Descripción 2",
+    "price": 2000,
+    "thumbnail": "../assets/images/top2.webp",
+    "code": "def456",
+    "id": 2
+  },
+  {
+    "title": "Producto 3",
+    "description": "Descripción 3",
+    "price": 3000,
+    "thumbnail": "../assets/images/top3.webp",
+    "code": "ghi789",
+    "stock": 5,
+    "id": 3
+  },
+  {
+    "title": "Producto 4",
+    "description": "Descripción 4",
+    "price": 3500,
+    "thumbnail": "../assets/images/top4.webp",
+    "code": "jyt739",
+    "stock": 12,
+    "id": 4
+  },
+  {
+    "title": "Producto 5",
+    "description": "Descripción 5",
+    "price": 1200,
+    "thumbnail": "../assets/images/cardigan1.webp",
+    "code": "oqs749",
+    "stock": 5,
+    "id": 5
+  },
+  {
+    "title": "Producto 6",
+    "description": "Descripción 6",
+    "price": 3050,
+    "thumbnail": "imagen6.jpg",
+    "code": "fry729",
+    "stock": 4,
+    "id": 6
+  },
+  {
+    "title": "Producto 7",
+    "description": "Descripción 7",
+    "price": 5200,
+    "thumbnail": "imagen7.jpg",
+    "code": "ghi589",
+    "stock": 5,
+    "id": 7
+  },
+  {
+    "title": "Producto 8",
+    "description": "Descripción 8",
+    "price": 3000,
+    "thumbnail": "imagen8.jpg",
+    "code": "iut787",
+    "stock": 5,
+    "id": 8
+  },
+  {
+    "title": "Producto 9",
+    "description": "Descripción 9",
+    "price": 3450,
+    "thumbnail": "imagen9.jpg",
+    "code": "tui740",
+    "stock": 15,
+    "id": 9
+  },
+  {
+    "title": "Producto 10",
+    "description": "Descripción 10",
+    "price": 2700,
+    "thumbnail": "imagen10.jpg",
+    "code": "ghi475",
+    "stock": 20,
+    "id": 10
+  }
+]

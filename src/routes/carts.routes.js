@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
 
-import CartManager from "../managers/CartManager.js";
+import CartManager from "../controllers/CartManager.js";
 const cartManager = new CartManager("../src/mocks/products.json");
 
 router.get("/", async (req, res) => {
