@@ -1,7 +1,7 @@
 import { Router } from "express";
-import ProductManager from "../controllers/ProductManager.js";
+import ProductManager from "../dao/db/ProductManagerMdb.js";
 
-const viewsManager = new ProductManager("../src/mocks/products.json");
+const viewsManager = new ProductManager();
 const router = Router();
 
 router.get("/", async (req, res) => {

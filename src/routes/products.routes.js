@@ -1,18 +1,40 @@
 import { Router } from "express";
+import ProductManager from "../dao/db/ProductManagerMdb.js";
+
 const router = Router();
 
-import ProductManager from "../controllers/ProductManager.js";
-const manager = new ProductManager("../src/mocks/products.json");
+const manager = new ProductManager();
+
+// Esto es con FileSystem
+// import ProductManager from "../dao/FileSystem/ProductManager.js";
+// const manager = new ProductManager("../src/mocks/products.json");
 
 router.get("/", async (req, res) => {
   try {
-    const limit = +req.query.limit || 0;
-    const products = await manager.getProducts(limit);
+    const limit = +req.query.limit || 10;
+    const page = +req.query.page || 1;
+    const sort = req.query.sort || null;
+    const query = req.query.query || null;
 
-    res.status(200).send({ payload: products });
+    const manager = new ProductManager();
+
+    const result = await manager.getProducts({ limit, page, sort, query });
+
+    res.status(200).send({
+      status: "success",
+      payload: result.products,
+      totalPages: result.totalPages,
+      prevPage: result.page > 1 ? result.page - 1 : null,
+      nextPage: result.page < result.totalPages ? result.page + 1 : null,
+      page: result.page,
+      hasPrevPage: result.page > 1,
+      hasNextPage: result.page < result.totalPages,
+    });
   } catch (error) {
     console.error("Error al obtener productos:", error);
-    res.status(500).send({ error: "Error interno del servidor" });
+    res
+      .status(500)
+      .send({ status: "error", error: "Error interno del servidor" });
   }
 });
 

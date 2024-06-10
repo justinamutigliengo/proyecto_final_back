@@ -1,5 +1,5 @@
-import ProductManager from "../controllers/ProductManager.js";
-const manager = new ProductManager("../mocks/products.json");
+import ProductManager from "../../src/dao/db/ProductManagerMdb.js";
+const manager = new ProductManager();
 
 const socketProducts = (socketServer) => {
   socketServer.on("connection", async (socket) => {

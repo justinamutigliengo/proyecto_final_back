@@ -6,6 +6,8 @@ const config = {
   get UPLOAD_DIR() {
     return `${this.DIRNAME}/public/img`;
   },
+  MONGODB_URI:
+    "mongodb+srv://coder_53160:coder2024@clustercoder.zi5pkou.mongodb.net/",
 };
 
 export default config;
