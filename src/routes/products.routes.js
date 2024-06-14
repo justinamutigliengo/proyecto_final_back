@@ -1,5 +1,5 @@
 import { Router } from "express";
-import ProductManager from "../dao/db/ProductManagerMdb.js";
+import ProductManager from "../dao/db/products.manager.mdb.js";
 
 const router = Router();
 
@@ -11,25 +11,11 @@ const manager = new ProductManager();
 
 router.get("/", async (req, res) => {
   try {
-    const limit = +req.query.limit || 10;
-    const page = +req.query.page || 1;
-    const sort = req.query.sort || null;
-    const query = req.query.query || null;
-
-    const manager = new ProductManager();
+    const { limit, page, sort, query } = req.query;
 
     const result = await manager.getProducts({ limit, page, sort, query });
 
-    res.status(200).send({
-      status: "success",
-      payload: result.products,
-      totalPages: result.totalPages,
-      prevPage: result.page > 1 ? result.page - 1 : null,
-      nextPage: result.page < result.totalPages ? result.page + 1 : null,
-      page: result.page,
-      hasPrevPage: result.page > 1,
-      hasNextPage: result.page < result.totalPages,
-    });
+    res.status(200).send({ status: "success", payload: result });
   } catch (error) {
     console.error("Error al obtener productos:", error);
     res

@@ -1,11 +1,15 @@
 import { Router } from "express";
+import cartManager from "../dao/db/carts.manager.mdb.js";
+
 const router = Router();
+
+const cart = new cartManager();
 
 // import CartManager from "../dao/FileSystem/CartManager.js";
 // const cartManager = new CartManager("../src/mocks/products.json");
 
 router.get("/", async (req, res) => {
-  const carrito = await cartManager.getCarts();
+  const carrito = await cart.getCarts();
   res.status(200).send({ payload: carrito });
 });
 
@@ -16,7 +20,9 @@ router.get("/", async (req, res) => {
 
 router.get("/:cid", async (req, res) => {
   try {
-    const cart = await Cart.findById(req.params.cid).populate("products");
+    const cart = await cartManager
+      .findById(req.params.cid)
+      .populate("products");
     res.status(200).send({ payload: cart });
   } catch (error) {
     console.error("Error al obtener el carrito:", error);
@@ -27,7 +33,7 @@ router.get("/:cid", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const newcart = await cartManager.addCart();
+  const newcart = await cart.addCart();
   res.status(200).send({ payload: newcart });
 });
 
@@ -54,26 +60,20 @@ router.delete("/:cid/products/:pid", async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
 
-    const updatedCart = await Cart.findByIdAndUpdate(
-      cid,
-      { $pull: { products: pid } },
-      { new: true }
-    ).populate("products");
+    const updatedCart = await cart
+      .findByIdAndUpdate(cid, { $pull: { products: pid } }, { new: true })
+      .populate("products");
 
-    res
-      .status(200)
-      .json({
-        message: "Producto eliminado del carrito exitosamente.",
-        payload: updatedCart,
-      });
+    res.status(200).json({
+      message: "Producto eliminado del carrito exitosamente.",
+      payload: updatedCart,
+    });
   } catch (error) {
     console.error("Error al eliminar producto del carrito:", error);
-    res
-      .status(500)
-      .json({
-        status: "error",
-        error: "No se pudo eliminar el producto del carrito.",
-      });
+    res.status(500).json({
+      status: "error",
+      error: "No se pudo eliminar el producto del carrito.",
+    });
   }
 });
 
@@ -82,18 +82,14 @@ router.put("/:cid", async (req, res) => {
     const cid = req.params.cid;
     const updatedProducts = req.body.products;
 
-    const updatedCart = await Cart.findByIdAndUpdate(
-      cid,
-      { products: updatedProducts },
-      { new: true }
-    ).populate("products");
+    const updatedCart = await cart
+      .findByIdAndUpdate(cid, { products: updatedProducts }, { new: true })
+      .populate("products");
 
-    res
-      .status(200)
-      .json({
-        message: "Carrito actualizado exitosamente.",
-        payload: updatedCart,
-      });
+    res.status(200).json({
+      message: "Carrito actualizado exitosamente.",
+      payload: updatedCart,
+    });
   } catch (error) {
     console.error("Error al actualizar el carrito:", error);
     res
@@ -108,26 +104,24 @@ router.put("/:cid/products/:pid", async (req, res) => {
     const pid = req.params.pid;
     const newQuantity = req.body.quantity;
 
-    const updatedCart = await Cart.findOneAndUpdate(
-      { _id: cid, "products._id": pid },
-      { $set: { "products.$.quantity": newQuantity } },
-      { new: true }
-    ).populate("products");
+    const updatedCart = await cart
+      .findOneAndUpdate(
+        { _id: cid, "products._id": pid },
+        { $set: { "products.$.quantity": newQuantity } },
+        { new: true }
+      )
+      .populate("products");
 
-    res
-      .status(200)
-      .json({
-        message: "Cantidad de producto actualizada exitosamente.",
-        payload: updatedCart,
-      });
+    res.status(200).json({
+      message: "Cantidad de producto actualizada exitosamente.",
+      payload: updatedCart,
+    });
   } catch (error) {
     console.error("Error al actualizar la cantidad del producto:", error);
-    res
-      .status(500)
-      .json({
-        status: "error",
-        error: "No se pudo actualizar la cantidad del producto.",
-      });
+    res.status(500).json({
+      status: "error",
+      error: "No se pudo actualizar la cantidad del producto.",
+    });
   }
 });
 
@@ -135,27 +129,21 @@ router.delete("/:cid", async (req, res) => {
   try {
     const cid = req.params.cid;
 
-    const updatedCart = await Cart.findByIdAndUpdate(
-      cid,
-      { products: [] },
-      { new: true }
-    ).populate("products");
+    const updatedCart = await cart
+      .findByIdAndUpdate(cid, { products: [] }, { new: true })
+      .populate("products");
 
-    res
-      .status(200)
-      .json({
-        message:
-          "Todos los productos del carrito fueron eliminados exitosamente.",
-        payload: updatedCart,
-      });
+    res.status(200).json({
+      message:
+        "Todos los productos del carrito fueron eliminados exitosamente.",
+      payload: updatedCart,
+    });
   } catch (error) {
     console.error("Error al eliminar todos los productos del carrito:", error);
-    res
-      .status(500)
-      .json({
-        status: "error",
-        error: "No se pudo eliminar todos los productos del carrito.",
-      });
+    res.status(500).json({
+      status: "error",
+      error: "No se pudo eliminar todos los productos del carrito.",
+    });
   }
 });
 

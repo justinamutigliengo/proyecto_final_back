@@ -1,4 +1,4 @@
-import ProductManager from "../../src/dao/db/ProductManagerMdb.js";
+import ProductManager from "../../src/dao/db/products.manager.mdb.js";
 const manager = new ProductManager();
 
 const socketProducts = (socketServer) => {
