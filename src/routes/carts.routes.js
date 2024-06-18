@@ -23,12 +23,15 @@ router.get("/:cid", async (req, res) => {
     const cart = await cartManager
       .findById(req.params.cid)
       .populate("products");
+    if (!cart) {
+      return res.status(404).send({ message: "Carrito no encontrado" });
+    }
     res.status(200).send({ payload: cart });
   } catch (error) {
     console.error("Error al obtener el carrito:", error);
     res
       .status(500)
-      .send({ status: "error", error: "Error interno del servidor" });
+      .json({ status: "error", error: "Error interno del servidor" });
   }
 });
 

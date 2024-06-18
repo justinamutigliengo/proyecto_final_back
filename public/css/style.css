@@ -1,0 +1,20 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.card {
+  border: none;
+  border-radius: 15px;
+  transition: transform 0.3s;
+  background: linear-gradient(135deg, #61707e00, #ddc3d0);
+  color: #fff;
+}
+
+.card-header {
+  background-color: #434a52;
+  color: #fff;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
