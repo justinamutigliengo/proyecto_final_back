@@ -1,6 +1,7 @@
 import express from "express";
 import handlebars from "express-handlebars";
 import mongoose from "mongoose";
+import cors from "cors";
 
 import config from "./config.js";
 import initSocket from "./sockets.js";
@@ -20,6 +21,7 @@ const expressInstance = app.listen(config.PORT, async () => {
 const socketServer = initSocket(expressInstance);
 app.set("socketServer", socketServer);
 
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
